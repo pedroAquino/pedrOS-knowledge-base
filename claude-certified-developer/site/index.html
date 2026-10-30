@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CCDV-F Study Plan</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #fbfaf7; --panel: #f2f0ea; --text: #1f1e1b; --muted: #6b6860;
+    --border: #dedad0; --accent: #c2603e; --active: #e7e3d8; --done: #3f8f5a;
+    --code: #ece9e1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1b1a18; --panel: #232220; --text: #e9e6df; --muted: #9d998f;
+      --border: #3a3834; --accent: #e08a68; --active: #2f2d2a; --done: #6cc28a;
+      --code: #2c2a27;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+    display: grid; grid-template-columns: 300px 1fr;
+  }
+  nav {
+    background: var(--panel); border-right: 1px solid var(--border);
+    height: 100vh; position: sticky; top: 0; overflow-y: auto; padding: 20px 12px;
+  }
+  nav h1 { font-size: 15px; margin: 0 8px 4px; }
+  #total { margin: 0 8px 12px; color: var(--muted); font-size: 13px; }
+  #total .bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+  #total .bar span { display: block; height: 100%; background: var(--done); }
+  nav a {
+    display: flex; justify-content: space-between; gap: 8px; align-items: baseline;
+    padding: 6px 8px; border-radius: 6px; color: var(--text); text-decoration: none; font-size: 14px;
+  }
+  nav a:hover { background: var(--active); }
+  nav a.active { background: var(--active); font-weight: 600; box-shadow: inset 3px 0 var(--accent); }
+  nav .badge { color: var(--muted); font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  nav .badge.complete { color: var(--done); }
+  nav hr { border: 0; border-top: 1px solid var(--border); margin: 10px 8px; }
+  main { padding: 32px 48px 80px; max-width: 920px; min-width: 0; }
+  main h1, main h2 { line-height: 1.25; }
+  main a { color: var(--accent); }
+  main code { background: var(--code); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+  main blockquote { margin: 0; padding: 4px 16px; border-left: 3px solid var(--border); color: var(--muted); }
+  main ul { padding-left: 24px; }
+  main li:has(> input[type=checkbox]) { list-style: none; margin-left: -22px; }
+  main input[type=checkbox] { accent-color: var(--done); width: 16px; height: 16px; margin-right: 6px; vertical-align: -2px; cursor: pointer; }
+  main li:has(> input:checked) { color: var(--muted); }
+  .table-wrap { overflow-x: auto; }
+  main table { border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  main th, main td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+  main th { background: var(--panel); }
+  .error { color: var(--accent); }
+  @media (max-width: 760px) {
+    body { grid-template-columns: 1fr; }
+    nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border); }
+    main { padding: 20px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <h1>CCDV-F Study Plan</h1>
+  <div id="total"></div>
+  <div id="links"></div>
+</nav>
+<main id="content"><p>Loading…</p></main>
+
+<script>
+  const WEEKS = 10;
+  const pad = n => String(n).padStart(2, '0');
+  const FILES = {
+    'study-plan.md': '../study-plan.md',
+    'exam-blueprint.md': '../exam-blueprint.md',
+    'resources.md': '../resources.md',
+  };
+  const FILE_TO_PAGE = { 'study-plan.md': 'overview', 'exam-blueprint.md': 'blueprint', 'resources.md': 'resources' };
+  for (let n = 1; n <= WEEKS; n++) {
+    FILES[`week-${pad(n)}.md`] = `../weeks/week-${pad(n)}/week-${pad(n)}.md`;
+    FILE_TO_PAGE[`week-${pad(n)}.md`] = `week-${n}`;
+  }
+
+  // pages: [{ id, title, markdown, inPlan, separatorBefore }]
+  // state: Map<pageId, boolean[]> — session-only checkbox state, seeded from the markdown
+  let pages = [];
+  const state = new Map();
+
+  const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  // Everything before the first `---` is the overview page; after it, each `## ` heading is its own page.
+  function splitPlan(md) {
+    const sections = [];
+    let current = { id: 'overview', title: 'Overview', lines: [] };
+    let pastOverview = false;
+    for (const line of md.split('\n')) {
+      if (!pastOverview && /^-{3,}\s*$/.test(line)) { pastOverview = true; continue; }
+      const m = pastOverview && line.match(/^## (.+)$/);
+      if (m) {
+        sections.push(current);
+        const heading = m[1].trim();
+        current = { id: slugify(heading), title: heading, lines: [line] };
+      } else {
+        current.lines.push(line);
+      }
+    }
+    sections.push(current);
+    return sections.map(s => ({
+      id: s.id, title: s.title, inPlan: true,
+      markdown: s.lines.join('\n').replace(/\n-{3,}\s*$/, '\n'),
+    }));
+  }
+
+  // A week file's `# Week N: …` heading gives the page id `week-N`; a trailing `(~X h)` is dropped from the title.
+  function weekPage(md) {
+    const heading = md.match(/^# (Week (\d+).*)$/m);
+    return {
+      id: `week-${heading[2]}`, title: heading[1].replace(/\s*\(~[^)]*\)\s*$/, ''), inPlan: true, markdown: md,
+    };
+  }
+
+  // Render markdown into a container element and return its checkboxes in document order.
+  function renderInto(el, markdown) {
+    el.innerHTML = marked.parse(markdown, { gfm: true });
+    for (const td of el.querySelectorAll('td')) {
+      const m = td.textContent.trim().match(/^\[( |x|X)\]$/);
+      if (m) {
+        td.innerHTML = '';
+        const box = document.createElement('input');
+        box.type = 'checkbox';
+        box.checked = m[1] !== ' ';
+        td.appendChild(box);
+      }
+    }
+    for (const table of el.querySelectorAll('table')) {
+      const wrap = document.createElement('div');
+      wrap.className = 'table-wrap';
+      table.replaceWith(wrap);
+      wrap.appendChild(table);
+    }
+    for (const a of el.querySelectorAll('a[href]')) {
+      const href = a.getAttribute('href');
+      const file = href.split('#')[0].split('/').pop();
+      if (FILE_TO_PAGE[file]) a.setAttribute('href', '#' + FILE_TO_PAGE[file]);
+      else if (/^https?:/.test(href)) { a.target = '_blank'; a.rel = 'noopener'; }
+    }
+    const boxes = [...el.querySelectorAll('input[type=checkbox]')];
+    boxes.forEach(b => b.removeAttribute('disabled'));
+    return boxes;
+  }
+
+  const count = id => {
+    const s = state.get(id);
+    return { done: s.filter(Boolean).length, total: s.length };
+  };
+
+  function drawSidebar(activeId) {
+    const links = document.getElementById('links');
+    links.innerHTML = '';
+    for (const p of pages) {
+      if (p.separatorBefore) links.appendChild(document.createElement('hr'));
+      const a = document.createElement('a');
+      a.href = '#' + p.id;
+      if (p.id === activeId) a.className = 'active';
+      const { done, total } = count(p.id);
+      const label = document.createElement('span');
+      label.textContent = p.title;
+      a.appendChild(label);
+      if (total) {
+        const badge = document.createElement('span');
+        badge.className = 'badge' + (done === total ? ' complete' : '');
+        badge.textContent = done === total ? `✓ ${done}/${total}` : `${done}/${total}`;
+        a.appendChild(badge);
+      }
+      links.appendChild(a);
+    }
+
+    let done = 0, total = 0;
+    for (const p of pages.filter(p => p.inPlan)) {
+      const c = count(p.id);
+      done += c.done; total += c.total;
+    }
+    const pct = total ? Math.round(done / total * 100) : 0;
+    document.getElementById('total').innerHTML =
+      `Study plan: ${done}/${total} done (${pct}%)<div class="bar"><span style="width:${pct}%"></span></div>`;
+  }
+
+  function show() {
+    const id = location.hash.slice(1);
+    const page = pages.find(p => p.id === id) || pages[0];
+    const main = document.getElementById('content');
+    const boxes = renderInto(main, page.markdown);
+    const s = state.get(page.id);
+    boxes.forEach((b, i) => {
+      b.checked = s[i];
+      b.addEventListener('change', () => { s[i] = b.checked; drawSidebar(page.id); });
+    });
+    drawSidebar(page.id);
+    main.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+
+  async function init() {
+    try {
+      const [plan, blueprint, resources, ...weeks] = await Promise.all(Object.values(FILES).map(async url => {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+        return res.text();
+      }));
+      const [overview, ...rest] = splitPlan(plan);
+      pages = [
+        overview,
+        ...weeks.map(weekPage),
+        ...rest,
+        { id: 'blueprint', title: 'Exam blueprint', markdown: blueprint, separatorBefore: true },
+        { id: 'resources', title: 'Resources', markdown: resources },
+      ];
+      const scratch = document.createElement('div');
+      for (const p of pages) state.set(p.id, renderInto(scratch, p.markdown).map(b => b.checked));
+      window.addEventListener('hashchange', show);
+      show();
+    } catch (err) {
+      document.getElementById('content').innerHTML =
+        `<p class="error">Could not load the markdown files (${err.message}).</p>
+         <p>Serve the folder over HTTP instead of opening the file directly:
+         <code>npx serve claude-certified-developer</code>, then open <code>/site/</code>.</p>`;
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
