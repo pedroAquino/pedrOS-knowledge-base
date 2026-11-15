@@ -4,7 +4,10 @@
 - [x] Read the whole exam guide, including the 3 sample questions (30 min)
 - [x] **Diagnostic:** [Tutorials Dojo free 20-question sampler](https://portal.tutorialsdojo.com/courses/free-claude-certified-developer-foundations-ccdv-f-practice-exams-sampler/) (unofficial), timed. Write your score here: 16/20 (80%), 23 min. Taken 2026-11-15
 - [x] Rate every sub-skill in `exam-blueprint.md` (Start column)
-- [ ] Course: *Claude Platform 101*
+- [ ] Course: [*Claude Platform 101*](https://anthropic.skilljar.com/claude-platform-101) (Anthropic Academy, free). The demos need a Console account, an API key and a little prepaid credit. Checked 2026-11-15. This week, do only the lessons that match week 1:
+  - [ ] Section 1, *What is the Claude Platform?*: all 3 lessons ("What is the Claude Platform?", "Your first API call", "Choosing the right model")
+  - [ ] Section 2, *Teaching your Agent*: only "What is thinking?"
+  - Leave the rest (agent loop, tool use, Sections 3–6) for later weeks
 - [ ] Docs: Models overview, choosing a model, pricing, extended and adaptive thinking, effort, fast mode
 - [ ] Learn: tokens, context window, sampling and temperature, non-determinism, when Opus vs Sonnet vs Haiku, zero-shot, one-shot and few-shot
 - [ ] **Build 0:** set up a TypeScript project with the Anthropic SDK and the API key read from env. Make one call to each model tier with the same prompt, and compare the latency, the `usage` token counts and the cost
