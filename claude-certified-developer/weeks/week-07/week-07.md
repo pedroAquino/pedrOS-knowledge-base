@@ -3,6 +3,10 @@
 
 - [ ] Read: "Building effective agents" (Anthropic engineering). Covers workflows vs agents, orchestrator-worker and evaluator-optimizer patterns
 - [ ] Course: *Introduction to subagents*
+- [ ] Course: [*Claude Platform 101*](https://anthropic.skilljar.com/claude-platform-101), the last lessons:
+  - [ ] Section 3, *Extending your Agent*: "Context management"
+  - [ ] Section 4, *Managed Agents*: "What are managed agents?" and "Building your first managed agent"
+  - [ ] Section 5, *Building with Claude Code*, and the Section 6 quiz
 - [ ] Docs: Agent SDK (TypeScript), including permissions, hooks, subagents and sessions; Managed Agents (self-hosted vs Anthropic-hosted)
 - [ ] Skim: overviews of Strands and PydanticAI (where each one fits)
 - [ ] **Build 6: Agent SDK research agent**. An orchestrator with one subagent (e.g. "summarize file X"). Add a `PreToolUse` hook that blocks writes outside one folder. Log the context size per turn

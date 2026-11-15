@@ -2,6 +2,9 @@
 **Domain 8** (Tool Implementation), **Domain 2** (API Mechanics: tools)
 
 - [ ] Course: *Building with the Claude API*, tool-use modules
+- [ ] Course: [*Claude Platform 101*](https://anthropic.skilljar.com/claude-platform-101), the lessons for this week (do them before Build 4):
+  - [ ] Section 2, *Teaching your Agent*: "The agent loop explained" and "What is tool use?"
+  - [ ] Section 3, *Extending your Agent*: "Built-in tools"
 - [ ] Docs: tool use overview, client vs server tools (web search, code execution and so on), parallel tool calls, the tool runner, writing good tool descriptions
 - [ ] Read: Anthropic engineering post on writing tools for agents
 - [ ] Learn: how tools are dispatched in the agent loop, returning tool errors, approval patterns (asking the user before running a tool), designing a tool set (how many tools, naming, how detailed results should be)

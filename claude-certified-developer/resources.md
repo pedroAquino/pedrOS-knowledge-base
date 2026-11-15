@@ -13,7 +13,7 @@ Checked 2026-10-26. No single course covers the whole CCDV-F blueprint, and Anth
 
 | Course | Blueprint coverage | Week |
 |---|---|---|
-| [Claude Platform 101](https://anthropic.skilljar.com/claude-platform-101) | LLM fundamentals, model options, platform overview | 1 |
+| [Claude Platform 101](https://anthropic.skilljar.com/claude-platform-101) | LLM fundamentals, model options, platform overview; later lessons cover tools, Skills, MCP and managed agents | 1, 5–7 |
 | AI Capabilities and Limitations | LLM fundamentals (optional, short) | 1 |
 | Building with the Claude API | API mechanics, prompting, tool use, caching, evals, RAG, agents and workflows (**the main course**) | 2–5 |
 | Introduction to Model Context Protocol | MCP server development, resources, tools and prompts | 6 |
