@@ -38,6 +38,7 @@ Source: [official exam guide PDF](https://everpath-course-content.s3-accelerate.
 | [`study-plan.md`](study-plan.md) | Overview of the plan, with a link to each week and the time budget |
 | `weeks/week-NN/week-NN.md` | One file per week: topics, resources, builds and checkpoints |
 | [`resources.md`](resources.md) | Free and paid resources, mapped to the sub-skills they cover |
+| [`projects/`](projects/README.md) | TypeScript setup for the builds and quick tests, one folder per week |
 
 ## How to use it
 

@@ -4,7 +4,7 @@ Pedro's personal knowledge base: Markdown notes, one folder per topic. There's n
 
 ## Topics
 
-- `claude-certified-developer/`: study plan for the Claude Certified Developer – Foundations (CCDV-F) exam. Includes a small viewer site in `site/`.
+- `claude-certified-developer/`: study plan for the Claude Certified Developer – Foundations (CCDV-F) exam. Includes a small viewer site in `site/` and a TypeScript setup for the builds in `projects/`.
 
 ## Writing notes
 
@@ -21,7 +21,7 @@ Pedro's personal knowledge base: Markdown notes, one folder per topic. There's n
   - The exam facts in `README.md` must match the exam guide.
 - The plan is split: `study-plan.md` is the overview, and each week lives in `weeks/week-NN/week-NN.md` (two-digit `NN`). When you change a week's title or hours, update the week table in `study-plan.md` too.
 - Pedro tracks progress by ticking `[x]` in the Markdown. This includes the `[ ]` cells in the blueprint tables and the score blanks (`____`).
-- Builds are TypeScript only, even when a course uses Python.
+- Builds are TypeScript only, even when a course uses Python. They live in `projects/week-NN/`, one folder per week to match `weeks/`. `projects/README.md` explains the setup (one shared `package.json`, run with `tsx`, API key in a git-ignored `.env`).
 - Real exam content ("dumps") never goes in these notes. Using it breaks the exam NDA.
 
 ### Viewer site (`site/index.html`)

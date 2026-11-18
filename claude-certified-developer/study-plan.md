@@ -3,7 +3,7 @@
 Order: fundamentals → API → prompting and context → tools and MCP → agents → security, evals and config → integration → mocks.
 Time per block follows exam weight. Software-engineering basics and Claude Code get only light review, since you already know them.
 
-**Builds** are small, generic **TypeScript** exercises (1–3 h each). Keep them all in one scratch repo, e.g. `ccdv-f-labs/`, with one folder per build. The point of each build is to *touch* the sub-skills, not to polish them.
+**Builds** are small, generic **TypeScript** exercises (1–3 h each). Keep them in `projects/week-NN/`, next to the week that asks for them. `projects/README.md` explains the setup. The point of each build is to *touch* the sub-skills, not to polish them.
 
 **Checkpoints** are a ~15-question quiz from the community repo for the domains just covered. If you score under 70%, re-read the relevant docs before moving on.
 
