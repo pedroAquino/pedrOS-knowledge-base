@@ -19,13 +19,15 @@ The notes are a **map**: they say what to learn and where to find it. They link 
 
 ## Viewer site
 
-The CCDV-F topic has a small site that renders the plan with clickable checkboxes. To preview it, run this from the repo root:
+The CCDV-F topic has a small site that renders the plan with clickable checkboxes. Its one canonical address is **http://ccdv.localhost:4747/site/**. Don't start other servers or ports for it.
+
+A systemd user service, `ccdv-site.service` (in `~/.config/systemd/user/`, not in this repo), serves `claude-certified-developer/` on port 4747. It reads the files from disk on every request, so edits show after a page reload, with no restart. If the site is down:
 
 ```sh
-npx serve claude-certified-developer
+systemctl --user restart ccdv-site.service
 ```
 
-Then open `/site/`. Opening the HTML file directly doesn't work, because the site fetches the Markdown files.
+Opening the HTML file directly doesn't work, because the site fetches the Markdown files.
 
 ## Working with agents
 

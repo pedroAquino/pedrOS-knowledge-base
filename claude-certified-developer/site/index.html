@@ -239,8 +239,8 @@
     } catch (err) {
       document.getElementById('content').innerHTML =
         `<p class="error">Could not load the markdown files (${err.message}).</p>
-         <p>Serve the folder over HTTP instead of opening the file directly:
-         <code>npx serve claude-certified-developer</code>, then open <code>/site/</code>.</p>`;
+         <p>Open the site at <a href="http://ccdv.localhost:4747/site/">http://ccdv.localhost:4747/site/</a>, not as a file.
+         If that's down, run <code>systemctl --user restart ccdv-site.service</code>.</p>`;
     }
   }
 
