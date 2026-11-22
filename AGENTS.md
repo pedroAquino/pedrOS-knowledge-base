@@ -31,6 +31,6 @@ The site loads `../study-plan.md`, the 10 week files, `../exam-blueprint.md` and
 - In `study-plan.md`, everything before the first `---` is the Overview page. After it, each `## ` heading becomes its own page.
 - Each week file must start with a `# Week N: …` heading. That gives the page id `week-N`, and a trailing `(~X h)` is removed from the title. The number of weeks is set by `WEEKS` in the site's script.
 - `- [ ]` list items, and table cells that hold only `[ ]` or `[x]`, become clickable checkboxes. Ticks made on the page last only for the session and are never saved back to the files.
-- Links to any of those files (matched by filename) are turned into links to pages inside the site. To show a new Markdown file on the site, add it to `FILES` and `FILE_TO_PAGE` and to the `pages` list in `init()`.
+- Links to any of those files (matched by filename) are turned into links to pages inside the site. To show an extra Markdown file (such as an exercise) on the site, add an entry to `EXTRA_PAGES` in the site's script. These pages appear after the weeks, and their checkboxes count toward study-plan progress. A new top-level file still needs adding to `FILES`, `FILE_TO_PAGE` and the `pages` list in `init()`.
 
 To preview: from the repo root run `npx serve claude-certified-developer`, then open `/site/`. Opening the file directly with `file://` doesn't work, because the site needs to fetch the Markdown files.

@@ -85,6 +85,15 @@
     FILES[`week-${pad(n)}.md`] = `../weeks/week-${pad(n)}/week-${pad(n)}.md`;
     FILE_TO_PAGE[`week-${pad(n)}.md`] = `week-${n}`;
   }
+  // Extra pages shown after the weeks: [{ file, path, id, title }]
+  const EXTRA_PAGES = [
+    { file: 'steering-thinking-exercise.md', path: '../weeks/week-01/steering-thinking-exercise.md',
+      id: 'week-1-steering-thinking', title: 'Week 1 exercise: steering thinking' },
+  ];
+  for (const x of EXTRA_PAGES) {
+    FILES[x.file] = x.path;
+    FILE_TO_PAGE[x.file] = x.id;
+  }
 
   // pages: [{ id, title, markdown, inPlan, separatorBefore }]
   // state: Map<pageId, boolean[]> — session-only checkbox state, seeded from the markdown
@@ -207,15 +216,18 @@
 
   async function init() {
     try {
-      const [plan, blueprint, resources, ...weeks] = await Promise.all(Object.values(FILES).map(async url => {
+      const text = Object.fromEntries(await Promise.all(Object.entries(FILES).map(async ([file, url]) => {
         const res = await fetch(url, { cache: 'no-store' });
         if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
-        return res.text();
-      }));
+        return [file, await res.text()];
+      })));
+      const { 'study-plan.md': plan, 'exam-blueprint.md': blueprint, 'resources.md': resources } = text;
+      const weeks = Array.from({ length: WEEKS }, (_, i) => text[`week-${pad(i + 1)}.md`]);
       const [overview, ...rest] = splitPlan(plan);
       pages = [
         overview,
         ...weeks.map(weekPage),
+        ...EXTRA_PAGES.map(x => ({ id: x.id, title: x.title, inPlan: true, markdown: text[x.file] })),
         ...rest,
         { id: 'blueprint', title: 'Exam blueprint', markdown: blueprint, separatorBefore: true },
         { id: 'resources', title: 'Resources', markdown: resources },

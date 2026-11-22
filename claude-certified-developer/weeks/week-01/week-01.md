@@ -12,8 +12,9 @@
   - [x] [Models overview](https://platform.claude.com/docs/en/models/overview)
   - [x] [Choosing a model](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model)
   - [x] [Pricing](https://platform.claude.com/docs/en/about-claude/pricing)
-  - [ ] [Extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
+  - [x] [Extended thinking](https://platform.claude.com/docs/en/build-with-claude/extended-thinking)
   - [ ] [Steering thinking](https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost). This used to be the "Adaptive thinking" page.
+    - [ ] Exercise: [steering thinking](steering-thinking-exercise.md)
   - [ ] [Effort](https://platform.claude.com/docs/en/build-with-claude/effort)
   - [ ] [Fast mode](https://platform.claude.com/docs/en/build-with-claude/fast-mode)
 - [ ] Learn (Claude docs, checked 2026-11-20):
