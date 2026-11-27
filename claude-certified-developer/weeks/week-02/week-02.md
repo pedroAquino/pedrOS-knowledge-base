@@ -1,9 +1,53 @@
 # Week 2: Claude API mechanics I (~3.5 h)
 **Domain 2** (Claude API Mechanics), **Domain 5** (Technical Fundamentals), **Domain 4** (Debugging and Error Handling)
 
-- [ ] Course: *Building with the Claude API*, first modules (Messages API, multi-turn, system prompts, streaming)
-- [ ] Docs: Messages API, streaming events, vision and PDF input, error codes, rate limits, retries
-- [ ] Learn: how a request and response are shaped, stop reasons, streaming event types, multi-format input, which errors to retry vs which to fix, SDK retry and timeout settings
-- [ ] **Build 1: streaming CLI chat**. Multi-turn, streams the output, accepts an image or PDF, handles 429/529/overloaded errors with backoff, and logs request IDs
+- [ ] Course: [*Building with the Claude API*](https://anthropic.skilljar.com/claude-with-the-anthropic-api) (Anthropic Academy, free). The lesson links open only once you're signed in and registered for the course. The lessons use Python in Jupyter notebooks, so watch them for the concepts. Checked 2026-11-23. This week, do only the lessons that match week 2:
+  - [ ] Section *Introduction*: [Welcome to the course](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287818)
+  - [ ] Section *Anthropic overview*: [Overview of Claude models](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287722). A recap of week 1
+  - Section *Accessing Claude with the API*, all of it:
+    - [ ] [Accessing the API](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287726)
+    - [ ] [Getting an API key](https://anthropic.skilljar.com/claude-with-the-anthropic-api/296766). Done in week 1, so skim
+    - [ ] [Making a request](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287725)
+    - [ ] [Multi-Turn conversations](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287735)
+    - [ ] [Chat exercise](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287727)
+    - [ ] [System prompts](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287733)
+    - [ ] [System prompts exercise](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287724)
+    - [ ] [Temperature](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287728). Concept only: on API version `2026-10-21` (SDK 1.x) a request that sends `temperature` returns a 400. See [sampling parameters are removed](https://platform.claude.com/docs/en/api/migration-2026-10-21#sampling-parameters)
+    - [ ] [Response streaming](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287734)
+    - [ ] [Structured data](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287732). It teaches assistant prefill plus stop sequences. Prefill returns a 400 on Claude 4.6 and later, so see [migrating away from prefilled responses](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#migrating-away-from-prefilled-responses). Stop sequences still work
+    - [ ] [Structured data exercise](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287729)
+    - [ ] [Quiz on accessing Claude with the API](https://anthropic.skilljar.com/claude-with-the-anthropic-api/289117)
+  - Section *Features of Claude*, only these two:
+    - [ ] [Image support](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287778)
+    - [ ] [PDF support](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287768)
+  - The rest is split across [week 3](../week-03/week-03.md), [week 4](../week-04/week-04.md) and [week 5](../week-05/week-05.md)
+- [ ] Docs (Claude docs, checked 2026-11-23). Each "Extra" is optional, and unofficial unless it says otherwise:
+  - [ ] Messages API: [Using the Messages API](https://platform.claude.com/docs/en/build-with-claude/working-with-messages), then skim the [Create a Message](https://platform.claude.com/docs/en/api/messages/create) reference
+  - [ ] Streaming events: [Streaming messages](https://platform.claude.com/docs/en/build-with-claude/streaming)
+    - Extra, on the transport underneath: [Server-Sent Events Crash Course](https://www.youtube.com/watch?v=4HlNv1qpZFY) (video, Hussein Nasser, 2020). Watch 5:00–18:00. The wire format is in [MDN, "Event stream format"](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#event_stream_format)
+  - [ ] Vision and PDF input: [Vision](https://platform.claude.com/docs/en/build-with-claude/vision) and [PDF support](https://platform.claude.com/docs/en/build-with-claude/pdf-support)
+    - Extra, official: the cookbook recipes for [passing images](https://platform.claude.com/cookbook/multimodal-getting-started-with-vision) and [sending a PDF](https://platform.claude.com/cookbook/misc-pdf-upload-summarization) (Python, 2 min each)
+    - Extra: [Claude API Tutorial for Beginners (Node.js + Vision)](https://www.youtube.com/watch?v=lelQhH8J_x4) (video, Leon van Zyl, 2024). Watch 5:28–10:40. It uses Claude 3 and an old SDK, but the image block has the same shape today
+  - [ ] Error codes: [Claude API errors](https://platform.claude.com/docs/en/api/errors)
+  - [ ] Rate limits: [Rate limits](https://platform.claude.com/docs/en/api/rate-limits)
+    - Extra: [Scaling your API with rate limiters](https://stripe.com/blog/rate-limiters) (article, Stripe, 9 min). The provider's side: why rate limiting and load shedding are separate things
+  - [ ] Retries: there's no docs page for retries. Read the 529 entry in ["HTTP errors"](https://platform.claude.com/docs/en/api/errors#http-errors), then ["Retries"](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/typescript#retries) and ["Timeouts"](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/typescript#timeouts) on the TypeScript SDK page
+    - Extra: [Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/) (article, AWS Architecture Blog, 5 min). The same idea as a video: [Understanding Exponential Backoff](https://www.youtube.com/watch?v=26-Lc18ORD8) (Muhammad Daif, 2023, 9 min)
+- [ ] Learn (checked 2026-11-23). Each topic links the exact docs section, then the best teaching piece found for it. Good videos exist for only a few of these topics, so most pieces are articles. Third-party pieces are marked unofficial:
+  - [ ] How a request and response are shaped: ["Basic request and response"](https://platform.claude.com/docs/en/build-with-claude/working-with-messages#basic-request-and-response) and ["Multiple conversational turns"](https://platform.claude.com/docs/en/build-with-claude/working-with-messages#multiple-conversational-turns)
+    - Watch: [Claude API Crash Course #2 - Sending a Message](https://www.youtube.com/watch?v=ba_vrnfalYE) (Net Ninja, unofficial, 2026, 10 min). TypeScript, with real code
+    - Read: the [Messages format notebook](https://github.com/anthropics/courses/blob/master/anthropic_api_fundamentals/02_messages_format.ipynb), section "Inspecting the message response" (Anthropic, archived repo, Python, written for Claude 3). It walks through every field of a response
+  - [ ] Stop reasons: ["Quick reference"](https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons#quick-reference) on the *Stop reasons and fallback* page
+    - Read: the [Parameters notebook](https://github.com/anthropics/courses/blob/master/anthropic_api_fundamentals/04_parameters.ipynb), sections "Max tokens" and "Stop sequences" (Anthropic, archived repo, Python, written for Claude 3). It forces a cut-off reply and reads `stop_reason`
+  - [ ] Streaming event types: ["Event types"](https://platform.claude.com/docs/en/build-with-claude/streaming#event-types) and ["Content block delta types"](https://platform.claude.com/docs/en/build-with-claude/streaming#content-block-delta-types). Claude 5 streams also carry thinking deltas: ["Streaming thinking"](https://platform.claude.com/docs/en/build-with-claude/thinking#streaming-thinking)
+    - Read: [How streaming LLM APIs work](https://til.simonwillison.net/llms/streaming-llm-apis) (Simon Willison, unofficial, 2024, 6 min). A curl request and the full raw event stream from Claude. The model and headers are from 2024
+    - Read: ["MessageStream API"](https://github.com/anthropics/anthropic-sdk-typescript/blob/sdk-v1.10.0/helpers.md#messagestream-api) in the SDK's `helpers.md` at v1.10.0 (official). The events the TypeScript stream helper emits
+  - [ ] Multi-format input: ["Vision"](https://platform.claude.com/docs/en/build-with-claude/working-with-messages#vision) on the Messages API page (image and text blocks in one message) and ["File types and content blocks"](https://platform.claude.com/docs/en/build-with-claude/files#file-types-and-content-blocks)
+    - Read: [Claude Vision and PDF Analysis - A Developer's Guide](https://getstream.io/blog/anthropic-claude-visual-reasoning/) (GetStream blog, unofficial, 2026). JavaScript. Read from "How Claude Handles Visual Content" to the end of "Limits and Costs", about 7 min. Check its limits table against the docs
+  - [ ] Which errors to retry and which to fix: ["HTTP errors"](https://platform.claude.com/docs/en/api/errors#http-errors) says what to do for each code. Three cases to know: a [spend-cap 429](https://platform.claude.com/docs/en/api/rate-limits#reaching-your-spend-cap) that no retry fixes, an [error inside a stream](https://platform.claude.com/docs/en/build-with-claude/streaming#error-events) after the HTTP 200, and [stop reasons vs errors](https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons#stop-reasons-vs-errors)
+    - Read: [Timeouts, retries, and backoff with jitter](https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter) (Amazon Builders' Library, unofficial, 11 min). The "why": when a retry helps, when it makes things worse, and how to pick a timeout
+  - [ ] SDK retry and timeout settings: ["Retries"](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/typescript#retries), ["Timeouts"](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/typescript#timeouts), ["Long requests"](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/typescript#long-requests) and ["Request IDs"](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/typescript#request-ids) on the TypeScript SDK page
+    - Read: the SDK source at v1.10.0, [`shouldRetry`](https://github.com/anthropics/anthropic-sdk-typescript/blob/sdk-v1.10.0/src/client.ts#L1951) and the [backoff calculation](https://github.com/anthropics/anthropic-sdk-typescript/blob/sdk-v1.10.0/src/client.ts#L2032) (official, about 90 lines). It shows exactly what the SDK retries and how long it waits
+- [ ] **Build 1: streaming CLI chat**. Multi-turn, streams the output, accepts an image or PDF, handles 429/529/overloaded errors with backoff, and logs request IDs. The full spec, with stages and experiments, is in [Build 1: streaming CLI chat](build-1-streaming-chat.md)
 
 [← Back to the study plan](../../study-plan.md)
