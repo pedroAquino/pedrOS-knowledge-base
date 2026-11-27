@@ -2,13 +2,13 @@
 **Domain 2** (Claude API Mechanics), **Domain 5** (Technical Fundamentals), **Domain 4** (Debugging and Error Handling)
 
 - [ ] Course: [*Building with the Claude API*](https://anthropic.skilljar.com/claude-with-the-anthropic-api) (Anthropic Academy, free). The lesson links open only once you're signed in and registered for the course. The lessons use Python in Jupyter notebooks, so watch them for the concepts. Checked 2026-11-23. This week, do only the lessons that match week 2:
-  - [ ] Section *Introduction*: [Welcome to the course](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287818)
-  - [ ] Section *Anthropic overview*: [Overview of Claude models](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287722). A recap of week 1
+  - [x] Section *Introduction*: [Welcome to the course](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287818)
+  - [x] Section *Anthropic overview*: [Overview of Claude models](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287722). A recap of week 1
   - Section *Accessing Claude with the API*, all of it:
-    - [ ] [Accessing the API](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287726)
-    - [ ] [Getting an API key](https://anthropic.skilljar.com/claude-with-the-anthropic-api/296766). Done in week 1, so skim
-    - [ ] [Making a request](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287725)
-    - [ ] [Multi-Turn conversations](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287735)
+    - [x] [Accessing the API](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287726)
+    - [x] [Getting an API key](https://anthropic.skilljar.com/claude-with-the-anthropic-api/296766). Done in week 1, so skim
+    - [x] [Making a request](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287725)
+    - [x] [Multi-Turn conversations](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287735)
     - [ ] [Chat exercise](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287727)
     - [ ] [System prompts](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287733)
     - [ ] [System prompts exercise](https://anthropic.skilljar.com/claude-with-the-anthropic-api/287724)
